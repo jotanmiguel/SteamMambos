@@ -2,6 +2,7 @@ import requests
 import string
 import time
 import threading
+import logging
 
 f = open("available.txt", "w")
 f.close() 
@@ -19,7 +20,9 @@ abc.append("-")
 def urlChecker(link:str):
     req = requests.get(link)
     cont = str(req.content)
-    if "No group could be retrieved for the given URL." in cont:
+    #The specified profile could not be found.
+    #No group could be retrieved for the given URL.
+    if "The specified profile could not be found." in cont:
         return True
     else:
         return False
@@ -54,12 +57,13 @@ def validUrlNum(size: int):
 
 
 for x in validUrlNum(4):
-    link = f"https://steamcommunity.com/groups/{x}"
-    if urlChecker(link):     
+    link = f"https://steamcommunity.com/groups/{x}"    
+    print(link)
+    if urlChecker(link):
         print(f"FOUND! {x}")
-        lista.append(f"https://steamcommunity.com/groups/{x}")
-        f.write(f"https://steamcommunity.com/groups/{x}\n")
-        f.close()
+        lista.append(link)
+        f.write(link)
+    f.close()
 
 
 # print(
